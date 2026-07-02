@@ -11,8 +11,8 @@ const app = express();
 app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://personal-portfolio-87ma.onrender.com']
-    : ['https://personal-portfolio-kappa-puce-56.vercel.app/'],
+     ? ['https://personal-portfolio-kappa-puce-56.vercel.app/']
+     : ['http://localhost:3000'],
   credentials: true,
 }));
 app.use(express.json({ limit: '10kb' }));
