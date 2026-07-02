@@ -11,7 +11,7 @@ const app = express();
 app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-    ? ['https://your-vercel-domain.vercel.app']
+    ? ['https://personal-portfolio-87ma.onrender.com']
     : ['http://localhost:3000'],
   credentials: true,
 }));
