@@ -12,7 +12,7 @@ app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
     ? ['https://personal-portfolio-87ma.onrender.com']
-    : ['http://localhost:3000'],
+    : ['https://personal-portfolio-kappa-puce-56.vercel.app/'],
   credentials: true,
 }));
 app.use(express.json({ limit: '10kb' }));
