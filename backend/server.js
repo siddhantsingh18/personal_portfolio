@@ -7,11 +7,13 @@ const rateLimit = require('express-rate-limit');
 
 const app = express();
 
+app.set('trust proxy', 1); 
+
 // Security & middleware
 app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production'
-     ? ['https://personal-portfolio-kappa-puce-56.vercel.app/']
+     ? ['https://personal-portfolio-kappa-puce-56.vercel.app']
      : ['http://localhost:3000'],
   credentials: true,
 }));
