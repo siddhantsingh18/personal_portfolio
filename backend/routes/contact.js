@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const Contact = require('../models/Contact');
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // POST /api/contact
 router.post('/', async (req, res) => {
@@ -16,28 +18,27 @@ router.post('/', async (req, res) => {
     const contact = new Contact({ name, email, subject, message });
     await contact.save();
 
-    // Send email notification
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
-
-      await transporter.sendMail({
-        from: `"Portfolio Contact" <${process.env.EMAIL_USER}>`,
-        to: process.env.OWNER_EMAIL,
-        subject: `New Portfolio Message: ${subject}`,
-        html: `
-          <h2>New Contact from Portfolio</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Subject:</strong> ${subject}</p>
-          <p><strong>Message:</strong><br/>${message}</p>
-        `,
-      });
+    // Send email notification via Resend
+    if (process.env.RESEND_API_KEY && process.env.OWNER_EMAIL) {
+      try {
+        await resend.emails.send({
+          from: 'Portfolio Contact <onboarding@resend.dev>',
+          to: process.env.OWNER_EMAIL,
+          subject: `New Portfolio Message: ${subject}`,
+          replyTo: email,
+          html: `
+            <h2>New Contact from Portfolio</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Subject:</strong> ${subject}</p>
+            <p><strong>Message:</strong><br/>${message}</p>
+          `,
+        });
+      } catch (emailErr) {
+        // Don't fail the whole request if email sending fails —
+        // the message is already saved to MongoDB either way.
+        console.error('Email send error:', emailErr);
+      }
     }
 
     res.status(201).json({ success: true, message: 'Message sent successfully!' });
