@@ -19,9 +19,13 @@ router.post('/', async (req, res) => {
     await contact.save();
 
     // Send email notification via Resend
+    console.log('[contact] RESEND_API_KEY present:', !!process.env.RESEND_API_KEY);
+    console.log('[contact] OWNER_EMAIL present:', !!process.env.OWNER_EMAIL, process.env.OWNER_EMAIL);
+
     if (process.env.RESEND_API_KEY && process.env.OWNER_EMAIL) {
       try {
-        await resend.emails.send({
+        console.log('[contact] Attempting to send email via Resend...');
+        const emailResult = await resend.emails.send({
           from: 'Portfolio Contact <onboarding@resend.dev>',
           to: process.env.OWNER_EMAIL,
           subject: `New Portfolio Message: ${subject}`,
@@ -34,11 +38,14 @@ router.post('/', async (req, res) => {
             <p><strong>Message:</strong><br/>${message}</p>
           `,
         });
+        console.log('[contact] Resend result:', JSON.stringify(emailResult));
       } catch (emailErr) {
         // Don't fail the whole request if email sending fails —
         // the message is already saved to MongoDB either way.
-        console.error('Email send error:', emailErr);
+        console.error('[contact] Email send error:', emailErr);
       }
+    } else {
+      console.log('[contact] Skipping email — missing env vars.');
     }
 
     res.status(201).json({ success: true, message: 'Message sent successfully!' });
