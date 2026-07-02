@@ -4,6 +4,7 @@ import { portfolioData } from "@/lib/data";
 import { MapPin, Mail, Download, ArrowDown } from "lucide-react";
 import { LinkedinIcon, GithubIcon } from "@/components/Icons";
 
+
 export default function Hero() {
   const { personal } = portfolioData;
   const [roleIndex, setRoleIndex] = useState(0);
@@ -11,6 +12,7 @@ export default function Hero() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
 
+  
   useEffect(() => {
     const current = personal.roles[roleIndex];
     let timeout: ReturnType<typeof setTimeout>;
