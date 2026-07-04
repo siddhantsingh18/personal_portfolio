@@ -179,6 +179,7 @@ export default function Contact() {
                       autoComplete="name"
                       className={inputClass}
                     />
+
                   </div>
                   <div>
                     <label htmlFor="contact-email" className="block text-xs font-medium text-[#1D1D1F] mb-1.5">
