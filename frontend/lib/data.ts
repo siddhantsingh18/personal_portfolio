@@ -107,7 +107,7 @@ export const portfolioData = {
       emoji: "📄",
       image: "",
       github: "https://github.com/siddhantsingh18/AI_resume_analyzer",
-      live: "#",
+      live: "https://ai-resume-analyzer-main-pxxz.onrender.com",
     },
     {
       title: "Tomato – Food Delivery App",
