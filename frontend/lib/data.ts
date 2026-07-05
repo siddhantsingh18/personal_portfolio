@@ -105,7 +105,7 @@ export const portfolioData = {
       type: "Individual Project",
       gradient: "from-violet-500 to-purple-500",
       emoji: "📄",
-      image: "",
+      image: "/resume-analyzer-preview.png",
       github: "https://github.com/siddhantsingh18/AI_resume_analyzer",
       live: "https://ai-resume-analyzer-main-pxxz.onrender.com",
     },
